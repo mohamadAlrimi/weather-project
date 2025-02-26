@@ -12,6 +12,10 @@ import Button from '@mui/material/Button';
 
 // External Librais
 import axios from "axios"; 
+import moment from "moment/moment";
+import "moment/min/locales";
+import { useTranslation } from 'react-i18next';
+moment.locale("ar");    
 const theme = createTheme({
   typography: {
     fontFamily: ["IBM"],
@@ -19,6 +23,9 @@ const theme = createTheme({
 },[]);
 let canclAxios = null ;
 function App() {
+  
+  const { t, i18n } = useTranslation();
+  const[dateAndTime ,setdateAndTime]=useState("");
   const [temp , setTemp] = useState({
     number:null,
     description:"",
@@ -27,6 +34,11 @@ function App() {
     icon:null
   })
   useEffect(()=>{
+    i18n.changeLanguage("ar");
+  },[])
+  useEffect(()=>{
+    
+    setdateAndTime(moment().format('MMMM Do YYYY, h:mm:ss a'))
 // Make a request for a user with a given ID
 axios.get('https://api.openweathermap.org/data/2.5/weather?lat=41.249390&lon=32.683201&appid=11121c0d0ae8106546a7a4dc9e36dde7',
   {
@@ -93,10 +105,10 @@ return() =>{
                   dir="rtl"
                 >
                   <Typography variant="h2" style={{ marginRight: "20px" }}>
-                    كرابوك
+                    {t("hello world")}
                   </Typography>
                   <Typography variant="h5" style={{ marginRight: "20px" }}>
-                    2025/24/2 الخميس
+                    {dateAndTime}
                   </Typography>
                 </div>
                 {/* ===CITY && TIME  ====*/}
