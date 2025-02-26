@@ -3,16 +3,36 @@ import "./App.css";
 import Test from "./component/Test";
 import { createTheme, ThemeProvider } from "@mui/material";
 import Typography from "@mui/material/Typography";
+// react 
+import { useEffect ,useState } from "react";
 // Material UI Container
 import Container from "@mui/material/Container";
 import AcUnitIcon from "@mui/icons-material/AcUnit";
 import Button from '@mui/material/Button';
+
+// External Librais
+import axios from "axios"; 
 const theme = createTheme({
   typography: {
     fontFamily: ["IBM"],
   },
-});
+},[]);
 function App() {
+  const [temp , setTemp] = useState(null)
+  useEffect(()=>{
+// Make a request for a user with a given ID
+axios.get('https://api.openweathermap.org/data/2.5/weather?lat=41.249390&lon=32.683201&appid=11121c0d0ae8106546a7a4dc9e36dde7')
+  .then(function (response) {
+    // handle success
+    const responsTemp = Math.round(response.data.main.temp - 272.15 )
+    setTemp(responsTemp)
+  })
+  .catch(function (error) {
+    // handle error
+    console.log(error);
+  })
+
+  })
   return (
     <div className="App">
       <ThemeProvider theme={theme}>
@@ -68,7 +88,7 @@ function App() {
                     {/* TEMP  */}
                     <div>
                       <Typography variant="h1" style={{ textAlign: "right" }}>
-                        34
+                        {temp}
                       </Typography>
                       {/* todo temp imge  */}
                     </div>
