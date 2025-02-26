@@ -19,7 +19,13 @@ const theme = createTheme({
 },[]);
 let canclAxios = null ;
 function App() {
-  const [temp , setTemp] = useState(null)
+  const [temp , setTemp] = useState({
+    number:null,
+    description:"",
+    min:null,
+    max:null, 
+    icon:null
+  })
   useEffect(()=>{
 // Make a request for a user with a given ID
 axios.get('https://api.openweathermap.org/data/2.5/weather?lat=41.249390&lon=32.683201&appid=11121c0d0ae8106546a7a4dc9e36dde7',
@@ -31,8 +37,15 @@ axios.get('https://api.openweathermap.org/data/2.5/weather?lat=41.249390&lon=32.
 )
   .then(function (response) {
     // handle success
-    const responsTemp = Math.round(response.data.main.temp - 272.15 )
-    setTemp(responsTemp)
+    const responsTemp = Math.round(response.data.main.temp - 272.15 );
+    const min= Math.round(response.data.main.temp_min - 272.15 );
+    const max =Math.round(response.data.main.temp_max - 272.15   );
+    const description = response.data.weather[0].description;
+    const responseIcon = response.data.weather[0].icon;
+    setTemp({number:responsTemp , min :min ,max:max, description:description ,icon:` https://openweathermap.org/img/wn/${responseIcon}@2x.png`})
+    console.log(max ,min, description)
+    console.log(response.data)
+    
   })
   .catch(function (error) {
     // handle error
@@ -95,15 +108,15 @@ return() =>{
                   {/* DEGRE && DESCRIPTION  */}
                   <div>
                     {/* TEMP  */}
-                    <div>
+                    <div style={{display:"flex",justifyContent:"center",alignItems:"center"}}>
                       <Typography variant="h1" style={{ textAlign: "right" }}>
-                        {temp}
+                        {temp.number}
                       </Typography>
-                      {/* todo temp imge  */}
+                   <img src={temp.icon}/>
                     </div>
                     {/* TEMP ==== */}
                     <Typography variant="h6" style={{ textAlign: "right" }}>
-                      broken cloulds
+                      {temp.description}
                     </Typography>
                     {/* MIn && MAX  */}
                     <div
@@ -113,9 +126,9 @@ return() =>{
                         alignItems: "center",
                       }}
                     >
-                      <h5>الصغرى : 34</h5>
+                      <h5>الصغرى:    {temp.min}</h5>
                       <h5 style={{ margin: "0px 5px"}}>|</h5>
-                      <h5>الكبرى : 34</h5>
+                      <h5>الكبرى : {temp.max}</h5>
                     </div>
                   </div>
                   {/* ===DEGRE && DESCRIPTION ==== */}
