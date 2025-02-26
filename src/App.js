@@ -98,7 +98,7 @@ return() =>{
           >
             {/* CARD  */}
             <div
-              dir="rtl"
+              dir={locale=== "ar" ?"rtl" : "ltr"}
               style={{
                 width: "100%",
                 color: "white",
@@ -167,7 +167,7 @@ return() =>{
             </div>
             {/* ====CARD====  */}
             {/* TRANSLATION CONTATNER  */}
-            <div dir="rtl" style={{display:"flex",justifyContent:"end" , width:"100%" ,marginTop:"20px"}}>
+            <div dir={locale=== "ar" ?"rtl" : "ltr"} style={{display:"flex",justifyContent:"end" , width:"100%" ,marginTop:"20px"}}>
             <Button onClick={handlelanguageClick} style={{color:"white"}} variant="text">{locale==="en" ? "ARABIC" :"انجليزي"}</Button>
             </div>
             {/*===== TRANSLATION CONTATNER ======= */}
