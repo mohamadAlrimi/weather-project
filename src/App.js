@@ -15,7 +15,7 @@ import axios from "axios";
 import moment from "moment/moment";
 import "moment/min/locales";
 import { useTranslation } from 'react-i18next';
-moment.locale("ar");    
+moment.locale("ar"); 
 const theme = createTheme({
   typography: {
     fontFamily: ["IBM"],
@@ -23,7 +23,8 @@ const theme = createTheme({
 },[]);
 let canclAxios = null ;
 function App() {
-  
+  // STATE 
+  const [locale, setLocale]=useState("ar")
   const { t, i18n } = useTranslation();
   const[dateAndTime ,setdateAndTime]=useState("");
   const [temp , setTemp] = useState({
@@ -33,8 +34,22 @@ function App() {
     max:null, 
     icon:null
   })
+
+  // EVENTS HANDLERS 
+  function handlelanguageClick(){
+    if(locale==="en"){
+      setLocale("ar")
+      i18n.changeLanguage("ar");
+      moment.locale("ar"); 
+    }else {
+      setLocale("en")
+      i18n.changeLanguage("en");
+      moment.locale("en"); 
+    }
+    setdateAndTime(moment().format('MMMM Do YYYY, h:mm:ss a'))
+  }
   useEffect(()=>{
-    i18n.changeLanguage("ar");
+    i18n.changeLanguage(locale);
   },[])
   useEffect(()=>{
     
@@ -105,7 +120,7 @@ return() =>{
                   dir="rtl"
                 >
                   <Typography variant="h2" style={{ marginRight: "20px" }}>
-                    {t("hello world")}
+                    {t("karabuk")}
                   </Typography>
                   <Typography variant="h5" style={{ marginRight: "20px" }}>
                     {dateAndTime}
@@ -128,7 +143,7 @@ return() =>{
                     </div>
                     {/* TEMP ==== */}
                     <Typography variant="h6" style={{ textAlign: "right" }}>
-                      {temp.description}
+                      {t(temp.description)}
                     </Typography>
                     {/* MIn && MAX  */}
                     <div
@@ -138,9 +153,9 @@ return() =>{
                         alignItems: "center",
                       }}
                     >
-                      <h5>الصغرى:    {temp.min}</h5>
+                      <h5>{t("min")}:    {temp.min}</h5>
                       <h5 style={{ margin: "0px 5px"}}>|</h5>
-                      <h5>الكبرى : {temp.max}</h5>
+                      <h5>{t("max")} : {temp.max}</h5>
                     </div>
                   </div>
                   {/* ===DEGRE && DESCRIPTION ==== */}
@@ -153,7 +168,7 @@ return() =>{
             {/* ====CARD====  */}
             {/* TRANSLATION CONTATNER  */}
             <div dir="rtl" style={{display:"flex",justifyContent:"end" , width:"100%" ,marginTop:"20px"}}>
-            <Button style={{color:"white"}} variant="text">انجليزي</Button>
+            <Button onClick={handlelanguageClick} style={{color:"white"}} variant="text">{locale==="en" ? "ARABIC" :"انجليزي"}</Button>
             </div>
             {/*===== TRANSLATION CONTATNER ======= */}
           </div>
