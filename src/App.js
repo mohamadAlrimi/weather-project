@@ -17,11 +17,18 @@ const theme = createTheme({
     fontFamily: ["IBM"],
   },
 },[]);
+let canclAxios = null ;
 function App() {
   const [temp , setTemp] = useState(null)
   useEffect(()=>{
 // Make a request for a user with a given ID
-axios.get('https://api.openweathermap.org/data/2.5/weather?lat=41.249390&lon=32.683201&appid=11121c0d0ae8106546a7a4dc9e36dde7')
+axios.get('https://api.openweathermap.org/data/2.5/weather?lat=41.249390&lon=32.683201&appid=11121c0d0ae8106546a7a4dc9e36dde7',
+  {
+    cancelToken:new axios.CancelToken((c)=>{
+      canclAxios = c ;
+    })
+  }
+)
   .then(function (response) {
     // handle success
     const responsTemp = Math.round(response.data.main.temp - 272.15 )
@@ -31,8 +38,10 @@ axios.get('https://api.openweathermap.org/data/2.5/weather?lat=41.249390&lon=32.
     // handle error
     console.log(error);
   })
-
-  })
+return() =>{
+  canclAxios();
+}
+  },[])
   return (
     <div className="App">
       <ThemeProvider theme={theme}>
