@@ -170,7 +170,7 @@ return() =>{
             <div dir={locale=== "ar" ?"rtl" : "ltr"} style={{display:"flex",justifyContent:"end" , width:"100%" ,marginTop:"20px"}}>
             <Button onClick={handlelanguageClick} style={{color:"white"}} variant="text">{locale==="en" ? "ARABIC" :"انجليزي"}</Button>
             </div>
-            {/*===== TRANSLATION CONTATNER ======= */}
+            {/*===== TRANSLATION CONTATNER    ======= */}
           </div>
           {/* ==CONTENT CONYAINER === */}
         </Container>
